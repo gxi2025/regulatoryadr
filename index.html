@@ -27,46 +27,8 @@ form {
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* Add this line to hide the form initially */
-  display: none; 
 }
 
-/* Consent Container Styling */
-.consent-container {
-    max-width: 800px;
-    margin: auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-    margin-bottom: 20px;
-}
-
-.consent-message {
-    padding: 15px;
-    border: 1px solid #007bff;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    background-color: #eaf6ff;
-    color: #0056b3;
-}
-
-.consent-controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.consent-controls label {
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.consent-controls input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-top: 0; /* Override default input margin */
-}
 
 
 /* Heading */
@@ -109,6 +71,11 @@ textarea {
   resize: vertical;
 }
 
+
+.privacy input {
+  margin-top: 3px;
+  transform: scale(2.5);
+}
 
 /* Button */
 button {
@@ -244,23 +211,17 @@ button:hover {
   <header class="form-header">
     <img src="header.png" alt="Header Banner">
   </header>
-    
-    <div id="consentBlock" class="consent-container">
-        <h2>Data Privacy Consent Required</h2>
-        <div class="consent-message">
-            In compliance with the **Data Privacy Act of 2012 (RA 10173)**, all personal information collected will be kept strictly confidential for pharmacovigilance compliance purposes.
-        </div>
-        <div class="consent-controls">
-            <input type="checkbox" id="consentCheckbox">
-            <label for="consentCheckbox">I have read and agree to the privacy statement.</label>
-        </div>
-        <button id="proceedButton" disabled>Proceed to Form</button>
-    </div>
-      <form id="reportForm">
+  <form id="reportForm">
     <h2>Adverse Event Reporting Form</h2>
 	<input type="hidden" name="Timestamp" id="timestamp">
+	<div class="privacy">
+		<table style="border:0px"><td><th width="50%"> In compliance with the Data Privacy Act of 2012 (RA 10173), all personal information collected will be kept strictly confidential for pharmacovigilance compliance purposes.</th><th width="50%"> <input type="checkbox" name="Consent" required></th></td></table>
+     
+   
+	</div>
 	
-	    <label>Full Name</label>
+
+    <label>Full Name</label>
     <input type="text" name="Full Name" required>
 
     <label>Gender</label>
@@ -400,41 +361,13 @@ button:hover {
 
   <script>
     const scriptURL = "https://script.google.com/macros/s/AKfycbxQ6JX5qJnuiYunOyMJ8qCUYr-sWjXXyrwc9rTfP31yetgQaOW9LCdz3mzV2sSdZB-USw/exec";
-    
-    // 1. Get elements for consent logic
-    const consentCheckbox = document.getElementById("consentCheckbox");
-    const proceedButton = document.getElementById("proceedButton");
-    const consentBlock = document.getElementById("consentBlock");
-    const reportForm = document.getElementById("reportForm");
 
-    // 2. Add event listener for the checkbox
-    consentCheckbox.addEventListener("change", function() {
-        // Enable the button only if the checkbox is checked
-        proceedButton.disabled = !this.checked;
-    });
-
-    // 3. Add event listener for the 'Proceed' button
-    proceedButton.addEventListener("click", function() {
-        if (consentCheckbox.checked) {
-            // Hide the consent block and show the form
-            consentBlock.style.display = "none";
-            reportForm.style.display = "block"; 
-        } else {
-            alert("You must agree to the privacy statement to proceed.");
-        }
-    });
-
-
-    // 4. Original form submission logic (unchanged)
-    reportForm.addEventListener("submit", function(e) {
+    document.getElementById("reportForm").addEventListener("submit", function(e) {
       e.preventDefault();
 	  document.getElementById("timestamp").value = new Date().toString();
       const formData = new FormData(this);
       const json = {};
       formData.forEach((value, key) => { json[key] = value });
-      
-      // Manually add the consent status to the data (since the original input was removed)
-      json["Consent"] = "Agreed";
 
       fetch(scriptURL, {
         method: "POST",
@@ -450,3 +383,5 @@ button:hover {
   </script>
 </body>
 </html>
+
+
