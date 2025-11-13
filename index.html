@@ -1,389 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pharmacovigilance Report</title>
-  <style>
+  <meta charset="UTF-8">
+  <title>Pharmacovigilance Report</title>
+  <style>
 /* Reset & Base */
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  background: linear-gradient(135deg, #f0f4f8, #e6ecf3);
-  padding: 20px;
-  color: #333;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #e6ecf3);
+  padding: 20px;
+  color: #333;
 }
 
 /* Form Container */
 form {
-  max-width: 800px;
-  margin: auto;
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 800px;
+  margin: auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Add this line to hide the form initially */
+  display: none; 
 }
 
+/* Consent Container Styling */
+.consent-container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.consent-message {
+    padding: 15px;
+    border: 1px solid #007bff;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #eaf6ff;
+    color: #0056b3;
+}
+
+.consent-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.consent-controls label {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.consent-controls input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 0; /* Override default input margin */
+}
 
 
 /* Heading */
 h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-  color: #222;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #222;
 }
 
 /* Labels */
 label {
-  font-weight: 600;
-  margin-top: 15px;
-  display: block;
-  font-size: 0.95rem;
-  color: #444;
+  font-weight: 600;
+  margin-top: 15px;
+  display: block;
+  font-size: 0.95rem;
+  color: #444;
 }
 
 /* Inputs, Textareas, Selects */
 input, textarea, select {
-  width: 100%;
-  padding: 10px 12px;
-  margin-top: 6px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  transition: border 0.2s, box-shadow 0.2s;
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
 }
 
 /* Textarea */
 textarea {
-  min-height: 80px;
-  resize: vertical;
+  min-height: 80px;
+  resize: vertical;
 }
 
-
-.privacy input {
-  margin-top: 3px;
-  transform: scale(2.5);
-}
 
 /* Button */
 button {
-  display: block;
-  width: 100%;
-  background: #007bff;
-  color: #fff;
-  font-size: 1rem;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background 0.2s ease;
+  display: block;
+  width: 100%;
+  background: #007bff;
+  color: #fff;
+  font-size: 1rem;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s ease;
 }
 
 button:hover {
-  background: #0056b3;
+  background: #0056b3;
 }
 
 /* Responsive */
 @media (max-width: 600px) {
-  form {
-    padding: 20px;
-  }
-  h2 {
-    font-size: 1.5rem;
-  }
-  label {
-    font-size: 0.9rem;
-  }
-  input, textarea, select {
-    font-size: 0.9rem;
-    padding: 9px 10px;
-  }
-  button {
-    font-size: 0.95rem;
-    padding: 10px;
-  }
+  form {
+    padding: 20px;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  label {
+    font-size: 0.9rem;
+  }
+  input, textarea, select {
+    font-size: 0.9rem;
+    padding: 9px 10px;
+  }
+  button {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
 }
 /* Checkbox container */
 .checkbox-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .checkbox-group label {
-  display: flex;
-  align-items: center;
-  gap: 6px; /* space between box and text */
-  font-size: 0.95rem;
-  background: #fff;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap; /* keeps text inline */
+  display: flex;
+  align-items: center;
+  gap: 6px; /* space between box and text */
+  font-size: 0.95rem;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap; /* keeps text inline */
 }
 
 .checkbox-group label:hover {
-  background: #f0f6ff;
-  border-color: #007BFF;
+  background: #f0f6ff;
+  border-color: #007BFF;
 }
 
 /* Hide the native checkbox */
 .checkbox-group input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 24px;
-  height: 24px;
-  border: 2px solid #007BFF;
-  border-radius: 4px;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #007BFF;
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
 }
 
 /* Custom checkmark */
 .checkbox-group input[type="checkbox"]:checked::after {
-  content: "✔";
-  font-size: 12px;
-  color: #fff;
-  background: #007BFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
+  content: "✔";
+  font-size: 12px;
+  color: #fff;
+  background: #007BFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
 }
 
 .date-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap; /* ensures they stack on mobile */
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* ensures they stack on mobile */
 }
 
 .date-row .form-group {
-  flex: 1; /* makes both equal width */
-  min-width: 200px; /* prevents them from shrinking too small */
+  flex: 1; /* makes both equal width */
+  min-width: 200px; /* prevents them from shrinking too small */
 }
 .triple-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap; /* stack on small screens */
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* stack on small screens */
 }
 
 .triple-row .form-group {
-  flex: 1;  /* equal widths */
-  min-width: 180px; /* prevent shrinking too small */
+  flex: 1;  /* equal widths */
+  min-width: 180px; /* prevent shrinking too small */
 }
 /* Header Image */
 .form-header {
-  max-width: 800px;
-  margin: 0 auto 0px auto;
-  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 0px auto;
+  text-align: center;
 }
 
 .form-header img {
-  width: 100%;
-  max-height: 180px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0);
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0);
 }
 
 
-  </style>
+  </style>
 </head>
 <body>
-  <header class="form-header">
-    <img src="header.png" alt="Header Banner">
-  </header>
-  <form id="reportForm">
-    <h2>Adverse Event Reporting Form</h2>
+  <header class="form-header">
+    <img src="header.png" alt="Header Banner">
+  </header>
+    
+    <div id="consentBlock" class="consent-container">
+        <h2>Data Privacy Consent Required</h2>
+        <div class="consent-message">
+            In compliance with the **Data Privacy Act of 2012 (RA 10173)**, all personal information collected will be kept strictly confidential for pharmacovigilance compliance purposes.
+        </div>
+        <div class="consent-controls">
+            <input type="checkbox" id="consentCheckbox">
+            <label for="consentCheckbox">I have read and agree to the privacy statement.</label>
+        </div>
+        <button id="proceedButton" disabled>Proceed to Form</button>
+    </div>
+      <form id="reportForm">
+    <h2>Adverse Event Reporting Form</h2>
 	<input type="hidden" name="Timestamp" id="timestamp">
-	<div class="privacy">
-		<table style="border:0px"><td><th width="50%"> In compliance with the Data Privacy Act of 2012 (RA 10173), all personal information collected will be kept strictly confidential for pharmacovigilance compliance purposes.</th><th width="50%"> <input type="checkbox" name="Consent" required></th></td></table>
-     
-   
-	</div>
 	
+	    <label>Full Name</label>
+    <input type="text" name="Full Name" required>
 
-    <label>Full Name</label>
-    <input type="text" name="Full Name" required>
-
-    <label>Gender</label>
-    <select name="Gender" required>
-      <option value="">Select</option>
-      <option>Male</option>
-      <option>Female</option>
-    </select>
+    <label>Gender</label>
+    <select name="Gender" required>
+      <option value="">Select</option>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
 	
 	
 <div class="triple-row">
-  <div class="form-group">
-    <label for="dob">Date of Birth</label>
-    <input type="date" id="dob" name="Date of Birth" required>
-  </div>
+  <div class="form-group">
+    <label for="dob">Date of Birth</label>
+    <input type="date" id="dob" name="Date of Birth" required>
+  </div>
 
-  <div class="form-group">
-    <label for="age">Age at the time of reaction</label>
-    <input type="number" id="age" name="Age at the time of reaction" min="0" required>
-  </div>
+  <div class="form-group">
+    <label for="age">Age at the time of reaction</label>
+    <input type="number" id="age" name="Age at the time of reaction" min="0" required>
+  </div>
 
-  <div class="form-group">
-    <label for="country">Country where the reaction started</label>
-    <input type="text" id="country" name="Country where the reaction started" required>
-  </div>
+  <div class="form-group">
+    <label for="country">Country where the reaction started</label>
+    <input type="text" id="country" name="Country where the reaction started" required>
+  </div>
 </div>	
 	
 
-    <label>Description of Reaction</label>
-    <textarea name="Description of Reaction" required></textarea>
+    <label>Description of Reaction</label>
+    <textarea name="Description of Reaction" required></textarea>
 	
 	<label>Reaction/Symptoms present</label>
-    <input type="text" name="Reaction/Symptoms present" required>
+    <input type="text" name="Reaction/Symptoms present" required>
 	
 <div class="date-row">
-  <div class="form-group">
-    <label for="startDate">Start Date of Reaction</label>
-    <input type="date" id="startDate" name="Start Date of Reaction" required>
-  </div>
-  <div class="form-group">
-    <label for="endDate">End Date of Reaction</label>
-    <input type="date" id="endDate" name="End Date of Reaction">
-  </div>
+  <div class="form-group">
+    <label for="startDate">Start Date of Reaction</label>
+    <input type="date" id="startDate" name="Start Date of Reaction" required>
+  </div>
+  <div class="form-group">
+    <label for="endDate">End Date of Reaction</label>
+    <input type="date" id="endDate" name="End Date of Reaction">
+  </div>
 </div>
 	
 
 
 <div class="date-row">
-  <div class="form-group">
-    <label>Duration (How many days?)</label>
-    <input type="text"  name="Duration (How many days?)" required>
-  </div>
-  <div class="form-group">
-    <label>Outcome of reaction</label>
-    <input type="text"  name="Outcome of reaction">
-  </div>
+  <div class="form-group">
+    <label>Duration (How many days?)</label>
+    <input type="text"  name="Duration (How many days?)" required>
+  </div>
+  <div class="form-group">
+    <label>Outcome of reaction</label>
+    <input type="text"  name="Outcome of reaction">
+  </div>
 </div>
 
 	
 
-    <label>Medicine Name (Indicate the full name of Medicine)</label>
-    <input type="text" name="Medicine Name (Indicate the full name of Medicine)" required>
+    <label>Medicine Name (Indicate the full name of Medicine)</label>
+    <input type="text" name="Medicine Name (Indicate the full name of Medicine)" required>
 	
 <label>Indicated medicine above is the probable cause</label>
-    <select name="Indicated medicine above is the probable cause" required>
-      <option value="">Select</option>
-      <option>Yes</option>
-      <option>No</option>
-    </select>
-     
-   <label>Medicine Producer (Manufacturer or Distributor)</label>
-    <input type="text" name="Medicine Producer (Manufacturer or Distributor)">
+    <select name="Indicated medicine above is the probable cause" required>
+      <option value="">Select</option>
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+     
+   <label>Medicine Producer (Manufacturer or Distributor)</label>
+    <input type="text" name="Medicine Producer (Manufacturer or Distributor)">
 	
 	<label>Batch Number or Lot Number</label>
-    <input type="text" name="Batch Number or Lot Number">
+    <input type="text" name="Batch Number or Lot Number">
 	
 	<label>Dosage (How much medicine did you take? Ex: 2 tablets 50mg, 3 times a day)</label>
-    <input type="text" name="Dosage (How much medicine did you take? Ex: 2 tablets 50mg, 3 times a day)">
+    <input type="text" name="Dosage (How much medicine did you take? Ex: 2 tablets 50mg, 3 times a day)">
 	
 	<label>How was the medicine taken or administered?</label>
-    <input type="text" name="How was the medicine taken or administered?">
+    <input type="text" name="How was the medicine taken or administered?">
 	
 
 	
 	<div class="date-row">
-  <div class="form-group">
-    <label>Start date of when medicine was taken</label>
-    <input type="date" name="Start date of when medicine was taken" required>
-  </div>
-  <div class="form-group">
-    <label>End date of when medicine was taken</label>
-    <input type="date"name="End date of when medicine was taken">
-  </div>
+  <div class="form-group">
+    <label>Start date of when medicine was taken</label>
+    <input type="date" name="Start date of when medicine was taken" required>
+  </div>
+  <div class="form-group">
+    <label>End date of when medicine was taken</label>
+    <input type="date"name="End date of when medicine was taken">
+  </div>
 </div>
 	
 	
 	
 	
 	<label>How long was the medicine taken (How many days?)</label>
-    <input type="text" name="How long was the medicine taken (How many days?)">
+    <input type="text" name="How long was the medicine taken (How many days?)">
 	
 	<label>Action taken with medicine</label>
-    <input type="text" name="Action taken with medicine">
+    <input type="text" name="Action taken with medicine">
 	
 	<label>Current and previous illnesses</label>
-    <input type="text" name="Current and previous illnesses">
+    <input type="text" name="Current and previous illnesses">
 	
 	<label>Additional comments</label>
-    <input type="text" name="Additional comments">
+    <input type="text" name="Additional comments">
 	
 	<label><strong>ATTENDING PHYSICIAN</strong></label>
 	
 	<label>Profession</label>
-    <input type="text" name="Profession">	
+    <input type="text" name="Profession">	
 	
 	<label>Given</label>
-    <input type="text" name="Given">
+    <input type="text" name="Given">
 	
 	<label>Family Name</label>
-    <input type="text" name="Family Name">
+    <input type="text" name="Family Name">
 	
 	<label>Health facility (Optional)</label>
-    <input type="text" name="Health facility (Optional)">
+    <input type="text" name="Health facility (Optional)">
 	
 	<label>Email</label>
-    <input type="email" name="Email">
+    <input type="email" name="Email">
 	
 	<label>Telephone / Mobile Number</label>
-    <input type="text" name="Telephone / Mobile Number">
+    <input type="text" name="Telephone / Mobile Number">
 
 	<label>Another Medicine Taken together with the Reported Drug</label>
-    <textarea name="Another Medicine Taken together with the Reported Drug"></textarea>
+    <textarea name="Another Medicine Taken together with the Reported Drug"></textarea>
 	
 	
-    <button type="submit">Submit Report</button>
-  </form>
+    <button type="submit">Submit Report</button>
+  </form>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbxQ6JX5qJnuiYunOyMJ8qCUYr-sWjXXyrwc9rTfP31yetgQaOW9LCdz3mzV2sSdZB-USw/exec";
+  <script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbxQ6JX5qJnuiYunOyMJ8qCUYr-sWjXXyrwc9rTfP31yetgQaOW9LCdz3mzV2sSdZB-USw/exec";
+    
+    // 1. Get elements for consent logic
+    const consentCheckbox = document.getElementById("consentCheckbox");
+    const proceedButton = document.getElementById("proceedButton");
+    const consentBlock = document.getElementById("consentBlock");
+    const reportForm = document.getElementById("reportForm");
 
-    document.getElementById("reportForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-	  document.getElementById("timestamp").value = new Date().toString();
-      const formData = new FormData(this);
-      const json = {};
-      formData.forEach((value, key) => { json[key] = value });
-
-      fetch(scriptURL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(json)
-      })
-      .then(() => alert("Report submitted successfully, our personnel will reach you the soonest."))
-      .catch(err => alert("Error: " + err));
+    // 2. Add event listener for the checkbox
+    consentCheckbox.addEventListener("change", function() {
+        // Enable the button only if the checkbox is checked
+        proceedButton.disabled = !this.checked;
     });
+
+    // 3. Add event listener for the 'Proceed' button
+    proceedButton.addEventListener("click", function() {
+        if (consentCheckbox.checked) {
+            // Hide the consent block and show the form
+            consentBlock.style.display = "none";
+            reportForm.style.display = "block"; 
+        } else {
+            alert("You must agree to the privacy statement to proceed.");
+        }
+    });
+
+
+    // 4. Original form submission logic (unchanged)
+    reportForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+	  document.getElementById("timestamp").value = new Date().toString();
+      const formData = new FormData(this);
+      const json = {};
+      formData.forEach((value, key) => { json[key] = value });
+      
+      // Manually add the consent status to the data (since the original input was removed)
+      json["Consent"] = "Agreed";
+
+      fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(json)
+      })
+      .then(() => alert("Report submitted successfully, our personnel will reach you the soonest."))
+      .catch(err => alert("Error: " + err));
+    });
 	
 	
-  </script>
+  </script>
 </body>
 </html>
-
-
-
-
